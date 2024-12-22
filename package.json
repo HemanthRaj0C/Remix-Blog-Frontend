@@ -14,11 +14,19 @@
     "@remix-run/node": "^2.15.1",
     "@remix-run/react": "^2.15.1",
     "@remix-run/serve": "^2.15.1",
+    "date-fns": "^4.1.0",
     "framer-motion": "^11.15.0",
+    "highlight.js": "^11.11.0",
     "isbot": "^4.1.0",
+    "mdx-bundler": "^10.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-toggle-dark-mode": "^1.1.1"
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.6.1",
+    "react-toggle-dark-mode": "^1.1.1",
+    "rehype-highlight": "^7.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.15.1",

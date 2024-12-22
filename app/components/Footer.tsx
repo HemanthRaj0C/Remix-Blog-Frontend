@@ -17,7 +17,7 @@ export default function Footer() {
     <footer className="max-w-4xl mx-auto py-10 px-8 inset-x-0 rounded-full">
       <div className="container mx-auto">
         <div className="relative mb-4">
-          <div className="absolute right-0 -top-16">
+          <div className="absolute right-0 -top-20">
              <BackToTop />
           </div>
         </div>

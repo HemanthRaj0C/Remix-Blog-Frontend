@@ -34,10 +34,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="">
-        <div className="py-10">
         <Navbar />
+        <div className="py-20">
+          {children}
         </div>
-        {children}
         <ScrollRestoration />
         <Scripts />
         <Footer />

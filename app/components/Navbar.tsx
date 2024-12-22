@@ -8,7 +8,7 @@ export default function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="max-w-5xl mx-auto py-4 px-8 fixed inset-x-0 top-0 rounded-xl shadow-lg backdrop-blur z-50"
+      className="max-w-5xl mx-auto py-4 px-8 fixed inset-x-0 top-0 rounded-xl shadow-lg backdrop-blur-sm z-50"
     >
       <div className="flex items-center justify-between text-white">
         {/* Site Name */}
