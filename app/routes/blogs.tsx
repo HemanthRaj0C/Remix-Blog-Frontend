@@ -69,7 +69,6 @@ export default function BlogIndex() {
           ))}
         </select>
       </div>
-
       <div className="space-y-4">
         {filteredYears.map((year : string) => (
           <section key={year} className="space-y-4">

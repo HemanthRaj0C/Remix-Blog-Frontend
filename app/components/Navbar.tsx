@@ -21,7 +21,7 @@ export default function Navbar() {
         {/* Navigation Links */}
         <nav className="flex gap-2 font-medium">
           <Link
-            to="/blog"
+            to="/blogs"
             className="hover:underline hover:text-gray-300 transition-colors"
           >
             blog
