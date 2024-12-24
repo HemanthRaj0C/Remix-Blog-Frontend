@@ -15,6 +15,7 @@ import 'highlight.js/styles/github-dark.css';
 import { useNavigation } from "@remix-run/react";
 import { useEffect, useState } from "react";  
 import BlogSkeleton from "../components/BlogSkeleton";
+import { calculateReadTime, formatReadTime } from "../libs/util";
 
 interface LoaderData {
   post: BlogPost;
@@ -36,6 +37,9 @@ export const loader: LoaderFunction = async ({ params }) => {
 export default function BlogDetails() {
   const { post } = useLoaderData<LoaderData>();
   const navigate = useNavigate();
+
+  const readingTime = formatReadTime(post.content);
+  console.log(readingTime);
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
@@ -68,7 +72,7 @@ export default function BlogDetails() {
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       ) : (
-        <code className="bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5" {...props}>
+        <code className="bg-gray-100 dark:bg-gray-800 rounded px-1 py-40" {...props}>
           {children}
         </code>
       );
@@ -137,15 +141,14 @@ export default function BlogDetails() {
               </div>
             )}
           </div>
-
-          {post.shortDescription && (
-            <p className="text-xl text-gray-600 dark:text-gray-400 font-light">
-              {post.shortDescription}
+          <div>
+            <p className="text-gray-600 dark:text-gray-400">
+              &bull; {readingTime}
             </p>
-          )}
+          </div>
         </header>
 
-        <div className="prose prose-lg dark:prose-invert max-w-none">
+        <div className="prose dark:prose-invert max-w-2xl mx-auto">
           <ReactMarkdown
             components={MarkdownComponents}
             remarkPlugins={[remarkGfm]}

@@ -69,6 +69,7 @@ export default function HomePage() {
                 <ArrowCard
                   title={post.title}
                   description={post.shortDescription}
+                  content={post.content}
                   href={`/blog/${post.id}`}
                 />
               </li>

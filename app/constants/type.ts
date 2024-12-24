@@ -34,6 +34,9 @@ export interface BlogPost {
     id: number;
     username: string;
     email: string;
+    password: string;
+    blogs: BlogPost[];
+    createdAt: string;
   };
 }
 

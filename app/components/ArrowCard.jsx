@@ -1,7 +1,11 @@
 import { Link } from "@remix-run/react";
 import { motion } from "framer-motion";
+import { calculateReadTime, formatReadTime } from "../libs/util";
 
-const ArrowCard = ({ title, description, href }) => {
+const ArrowCard = ({ title, description, content, href }) => {
+
+  const readTime = formatReadTime(content);
+
   return (
     <Link to={href} className="block">
       <motion.div
@@ -19,14 +23,24 @@ const ArrowCard = ({ title, description, href }) => {
           animate={{ x: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <motion.div 
-            className="font-semibold"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            {title}
-          </motion.div>
+          <div className="flex flex-row justify-between">
+            <motion.div 
+              className="font-semibold"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              {title}
+            </motion.div>
+            <motion.div
+              className="text-sm text-gray-500 dark:text-gray-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              {readTime}
+            </motion.div>
+          </div>
           <motion.div 
             className="text-sm"
             initial={{ opacity: 0 }}

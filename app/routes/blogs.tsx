@@ -61,7 +61,7 @@ export default function BlogIndex() {
         <select
           value={selectedYear}
           onChange={(e) => handleYearChange(e.target.value)}
-          className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+          className="px-1 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
         >
           <option value="">All Years</option>
           {years.map((year : string) => (
@@ -82,6 +82,7 @@ export default function BlogIndex() {
                     <ArrowCard
                       title={post.title}
                       description={post.shortDescription}
+                      content={post.content}
                       href={`/blog/${post.id}`}
                     />
                   </li>

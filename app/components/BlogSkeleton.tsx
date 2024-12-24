@@ -14,9 +14,6 @@ const BlogSkeleton = () => {
               <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-48"></div>
               <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32"></div>
             </div>
-  
-            {/* Description skeleton */}
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
           </div>
   
           {/* Content skeleton */}
