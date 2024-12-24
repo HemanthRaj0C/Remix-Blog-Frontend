@@ -1,8 +1,17 @@
-import { Link } from "@remix-run/react";
+import { Link, useOutletContext } from "@remix-run/react";
 import { SITE } from "../constants/site";
 import { motion } from "framer-motion";
 
-export default function Navbar() {
+type ContextType = {
+  isAuthenticated: boolean;
+};
+
+type NavbarProps = {
+  isAuthenticated: boolean;
+};
+
+export default function Navbar({ isAuthenticated }: NavbarProps) {
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
@@ -24,22 +33,36 @@ export default function Navbar() {
             to="/blogs"
             className="hover:underline hover:text-gray-300 transition-colors"
           >
-            blog
+            blogs
           </Link>
           <span>/</span>
-          <Link
-            to="/work"
-            className="hover:underline hover:text-gray-300 transition-colors"
-          >
-            work
-          </Link>
-          <span>/</span>
-          <Link
-            to="/projects"
-            className="hover:underline hover:text-gray-300 transition-colors"
-          >
-            projects
-          </Link>
+
+          {isAuthenticated ? (
+            <>
+              <Link
+                to="/my-blogs"
+                className="hover:underline hover:text-gray-300 transition-colors"
+              >
+                my-blogs
+              </Link>
+              <span>/</span>
+              <form action="/logout" method="post" className="inline">
+                <button
+                  type="submit"
+                  className="hover:underline hover:text-gray-300 transition-colors"
+                >
+                  logout
+                </button>
+              </form>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="hover:underline hover:text-gray-300 transition-colors"
+            >
+              login
+            </Link>
+          )}
         </nav>
       </div>
     </motion.nav>

@@ -4,12 +4,23 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 
 import "./tailwind.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+
+// Add loader type and function
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookie = request.headers.get("Cookie");
+  return json({
+    isAuthenticated: Boolean(cookie && cookie.includes("access_token")),
+  });
+}
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,6 +35,7 @@ export const links: LinksFunction = () => [
   },
 ];
 
+// Update Layout to accept and use auth status
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
@@ -34,7 +46,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="">
-        <Navbar />
         <div className="py-20">
           {children}
         </div>
@@ -46,6 +57,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Update App to handle auth state
 export default function App() {
-  return <Outlet />;
+  const { isAuthenticated } = useLoaderData<typeof loader>();
+  return(
+    <div>
+      <Navbar isAuthenticated={isAuthenticated} />
+      <Outlet />;
+    </div>
+  ) 
+
 }
