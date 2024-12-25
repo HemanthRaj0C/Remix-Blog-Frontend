@@ -10,12 +10,13 @@ import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { a11yDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import 'highlight.js/styles/github-dark.css';
 import { useNavigation } from "@remix-run/react";
 import { useEffect, useState } from "react";  
 import BlogSkeleton from "../components/BlogSkeleton";
 import { calculateReadTime, formatReadTime } from "../libs/util";
+import { motion } from "framer-motion";
 
 interface LoaderData {
   post: BlogPost;
@@ -23,7 +24,7 @@ interface LoaderData {
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
-    const response = await fetch(`http://localhost:3001/blogs/${params.id}`);
+    const response = await fetch(`${process.env.LOCALHOST}/blogs/${params.id}`);
     if (!response.ok) {
       throw new Response("Not Found", { status: 404 });
     }
@@ -51,7 +52,6 @@ export default function BlogDetails() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Update this condition
   if (navigation.state === "loading" || isLoading) {
     return <BlogSkeleton />;
   }
@@ -63,7 +63,7 @@ export default function BlogDetails() {
       
       return !inline ? (
         <SyntaxHighlighter
-          style={coldarkDark}
+          style={a11yDark}
           language={language}
           PreTag="div"
           className="rounded-lg"
@@ -72,15 +72,14 @@ export default function BlogDetails() {
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       ) : (
-        <code className="bg-gray-100 dark:bg-gray-800 rounded px-1 py-40" {...props}>
+        <code className="bg-stone-800 rounded px-1 py-40" {...props}>
           {children}
         </code>
       );
     },
-    // Custom styling for other markdown elements
     blockquote({ children }: any) {
       return (
-        <blockquote className="border-l-4 border-blue-500 pl-4 italic my-4 text-gray-600 dark:text-gray-400">
+        <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4 text-gray-600 dark:text-gray-400">
           {children}
         </blockquote>
       );
@@ -88,50 +87,88 @@ export default function BlogDetails() {
     table({ children }: any) {
       return (
         <div className="overflow-x-auto my-8">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <motion.table
+            className="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             {children}
-          </table>
+          </motion.table>
         </div>
       );
     },
     th({ children }: any) {
       return (
-        <th className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+        <motion.th
+          className="px-6 py-3 bg-gray-50 dark:bg-stone-700 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           {children}
-        </th>
+        </motion.th>
       );
     },
     td({ children }: any) {
       return (
-        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+        <motion.td
+          className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
           {children}
-        </td>
+        </motion.td>
       );
     },
     img({ src, alt }: any) {
       return (
-        <img
+        <motion.img
           src={src}
           alt={alt}
           className="rounded-lg shadow-lg max-w-full h-auto my-8"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
         />
       );
     },
   };
 
   return (
-    <div className="max-w-2xl min-h-screen mx-auto px-4 py-8">
+    <motion.div 
+      className="max-w-2xl min-h-screen mx-auto px-4 py-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <BackToPrev href="/blogs">
         Back to Blog
       </BackToPrev>
 
-      <article className="mt-8 space-y-8">
+      <motion.article 
+        className="mt-8 space-y-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <header className="space-y-6">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          <motion.h1 
+            className="text-4xl font-bold text-gray-900 dark:text-white"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}  
+            transition={{ duration: 0.5 }}
+          >
             {post.title}
-          </h1>
+          </motion.h1>
           
-          <div className="flex flex-col items-start gap-y-2 text-sm text-gray-600 dark:text-gray-400">
+          <motion.div 
+            className="flex flex-col items-start gap-y-2 text-sm text-gray-600 dark:text-gray-400"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <time dateTime={post.createdAt}>
               Published on {format(new Date(post.createdAt), 'MMMM d, yyyy')}
             </time>
@@ -140,15 +177,24 @@ export default function BlogDetails() {
                 Updated on {format(new Date(post.updatedAt), 'MMMM d, yyyy')}
               </div>
             )}
-          </div>
-          <div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             <p className="text-gray-600 dark:text-gray-400">
               &bull; {readingTime}
             </p>
-          </div>
+          </motion.div>
         </header>
 
-        <div className="prose dark:prose-invert max-w-2xl mx-auto">
+        <motion.div 
+          className="prose dark:prose-invert max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <ReactMarkdown
             components={MarkdownComponents}
             remarkPlugins={[remarkGfm]}
@@ -160,24 +206,34 @@ export default function BlogDetails() {
           >
             {post.content}
           </ReactMarkdown>
-        </div>
+        </motion.div>
 
-        <footer className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
+        <motion.footer 
+          className="mt-12 pt-6 border-t dark:border-stone-400"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="text-sm">
-                <p className="text-gray-600 dark:text-gray-400">
+            <motion.div 
+              className="flex items-center space-x-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <div className="text-base">
+                <p className="text-gray-600 font-semibold dark:text-gray-400">
                   Written by
                 </p>
                 <p className="font-medium text-gray-900 dark:text-white">
                   {post.author.username}
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </footer>
-      </article>
-    </div>
+        </motion.footer>
+      </motion.article>
+    </motion.div>
   );
 }
 

@@ -17,12 +17,12 @@ export default function Navbar({ isAuthenticated }: NavbarProps) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="max-w-5xl mx-auto py-4 px-8 fixed inset-x-0 top-0 rounded-xl shadow-lg backdrop-blur-sm z-50"
+      className="max-w-5xl mx-auto py-4 px-8 fixed inset-x-0 top-0 rounded-xl shadow-sm backdrop-blur-sm z-50"
     >
       <div className="flex items-center justify-between text-white">
         {/* Site Name */}
         <Link to="/">
-          <div className="font-semibold text-xl hover:scale-105 hover:animate-pulse border border-transparent hover:border-white p-1 px-5 hover:rounded-full transition-all transform duration-300">
+          <div className="font-semibold text-xl hover:scale-105 hover:animate-pulse p-1 px-5 transition-all transform duration-300">
             {SITE.NAME}
           </div>
         </Link>

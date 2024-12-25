@@ -4,9 +4,21 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-white dark:bg-stone-900;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+/* Add this to your CSS file */
+.animate {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: all 700ms ease-out;
+}
+
+.animate.show {
+  opacity: 1;
+  transform: translateY(0);
 }

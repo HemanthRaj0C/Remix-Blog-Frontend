@@ -14,7 +14,7 @@ export const MDXComponents = {
     <p className="mb-4 leading-relaxed" {...props} />
   ),
   a: (props: any) => (
-    <a className="text-blue-600 hover:text-blue-800 underline" {...props} />
+    <a className="text-stone-600 hover:text-stone-800 underline" {...props} />
   ),
   ul: (props: any) => (
     <ul className="list-disc list-inside mb-4" {...props} />

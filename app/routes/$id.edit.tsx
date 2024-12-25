@@ -6,7 +6,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   await requireAuth(request);
   const token = getToken(request);
   
-  const response = await fetch(`http://localhost:3001/blogs/${params.id}`, {
+  const response = await fetch(`${process.env.LOCALHOST}/blogs/${params.id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -29,7 +29,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   const content = formData.get("content");
 
   try {
-    const response = await fetch(`http://localhost:3001/blogs/${params.id}`, {
+    const response = await fetch(`${process.env.LOCALHOST}/blogs/${params.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

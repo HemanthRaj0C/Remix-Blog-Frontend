@@ -46,7 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="">
-        <div className="py-20">
+        <div className="py-36">
           {children}
         </div>
         <ScrollRestoration />
@@ -63,7 +63,7 @@ export default function App() {
   return(
     <div>
       <Navbar isAuthenticated={isAuthenticated} />
-      <Outlet />;
+      <Outlet />
     </div>
   ) 
 

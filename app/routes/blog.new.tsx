@@ -17,7 +17,7 @@ export const action: ActionFunction = async ({ request }) => {
   const content = formData.get("content");
 
   try {
-    const response = await fetch('http://localhost:3001/blogs', {
+    const response = await fetch(`${process.env.LOCALHOST}/blogs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
