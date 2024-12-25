@@ -1,10 +1,11 @@
 import { json, type LoaderFunction } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData, useNavigate, useSearchParams } from "@remix-run/react";
 import { useState } from "react";
 import ArrowCard from "~/components/ArrowCard";
 import { BlogPost, PostsByYear } from "../constants/type";
 import BackToPrev from "~/assets/BackToPrev";
 import { requireAuth, getToken } from "../utils/auth.server";
+import { motion } from "framer-motion";
 
 // Loader function with authentication
 export const loader: LoaderFunction = async ({ request }) => {
@@ -53,6 +54,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function BlogIndex() {
   const { postsByYear, years } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const selectedYear = searchParams.get('year') || '';
 
   const handleYearChange = (year: string) => {
@@ -75,8 +77,27 @@ export default function BlogIndex() {
       <BackToPrev href="/">
         Back to Home
       </BackToPrev>
-      <div className="font-semibold text-black dark:text-white">
-        Blog
+      
+      <div className="flex items-center justify-between">
+        <div className="font-semibold text-black text-2xl dark:text-white">
+          Blog
+        </div>
+        <div>
+        <motion.button
+          onClick={() => navigate('/blog/new')}
+          className="relative group flex flex-nowrap py-2 px-4 pr-8 rounded-lg border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-all transform duration-300 hover:scale-105"
+        >
+          Create New Post
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="absolute top-1/2 right-1 -translate-y-1/2 h-5 w-5 stroke-2 fill-none stroke-current"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" className="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" />
+            <polyline points="12 5 19 12 12 19" className="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out" />
+          </svg>
+        </motion.button>
+        </div>
       </div>
 
       {/* Filter by Year */}
@@ -84,7 +105,8 @@ export default function BlogIndex() {
         <select
           value={selectedYear}
           onChange={(e) => handleYearChange(e.target.value)}
-          className="px-1 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+          className="px-1 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
+                   bg-white dark:bg-gray-800"
         >
           <option value="">All Years</option>
           {years.map((year: string) => (
@@ -104,12 +126,34 @@ export default function BlogIndex() {
               <ul className="flex flex-col gap-4">
                 {postsByYear[year].map((post: BlogPost) => (
                   <li key={post.id}>
-                    <ArrowCard
-                      title={post.title}
-                      description={post.shortDescription}
-                      content={post.content}
-                      href={`/blog/${post.id}`}
-                    />
+                      <ArrowCard
+                        title={post.title}
+                        description={post.shortDescription}
+                        content={post.content}
+                        href={`/blog/${post.id}`}
+                      />
+                      <div className="flex justify-end my-3">
+                      <motion.button
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ 
+                          duration: 0.3,
+                        }}
+                        onClick={() => navigate(`/${post.id}/edit`)}
+                        className="relative group flex flex-nowrap py-1 px-3 pr-7 rounded-lg border border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 text-blue-600 transition-colors"
+                      >
+                        Edit
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          className="absolute top-1/2 right-2 -translate-y-1/2 h-5 w-5 stroke-2 fill-none stroke-current"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12" className="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" />
+                          <polyline points="12 5 19 12 12 19" className="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out" />
+                        </svg>
+                      </motion.button>
+                      </div>
                   </li>
                 ))}
               </ul>
